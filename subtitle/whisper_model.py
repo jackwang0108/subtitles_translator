@@ -1,6 +1,6 @@
-from typing import Literal, Union, List, Any, TypedDict
-from time import time
+import time
 import logging
+from typing import Literal, Union, List, Any, TypedDict
 
 
 class WhisperModel:
@@ -9,10 +9,16 @@ class WhisperModel:
         self.device = None
 
     # 加载whisper模型，默认使用small模型
-    def load(self, model_name: Literal["tiny", "base", "small", "medium", "large", "large-v2"] = "small",
-             device: Union[Literal["cpu", "cuda"], None] = None):
+    def load(
+        self,
+        model_name: Literal[
+            "tiny", "base", "small", "medium", "large", "large-v2"
+        ] = "small",
+        device: Union[Literal["cpu", "cuda"], None] = None,
+    ):
         self.device = device
         import whisper
+
         # 默认model保存在.cache文件夹下
         self.whisper_model = whisper.load_model(model_name, device)
 
@@ -21,11 +27,7 @@ class WhisperModel:
         tic = time.time()
 
         res = self.whisper_model.transcribe(
-            audio,
-            task="transcribe",
-            language=lang,
-            verbose=True,
-            word_timestamps=True
+            audio, task="transcribe", language=lang, verbose=True, word_timestamps=True
         )
 
         logging.info(f"Done transcription in {time.time() - tic:.1f} sec")
@@ -36,11 +38,7 @@ class WhisperModel:
         tic = time.time()
 
         res = self.whisper_model.transcribe(
-            audio,
-            task="translate",
-            language=lang,
-            verbose=True,
-            word_timestamps=True
+            audio, task="translate", language=lang, verbose=True, word_timestamps=True
         )
 
         logging.info(f"Done translate in {time.time() - tic:.1f} sec")

@@ -3,6 +3,7 @@ import logging
 from subtitle.type import WhisperModelEnum
 from subtitle.action import Action
 
+
 # 命令行参数解析
 def getParser():
     parser = argparse.ArgumentParser(
@@ -41,10 +42,7 @@ def getParser():
         action=argparse.BooleanOptionalAction,
     )
     parser.add_argument(
-        "--outputs",
-        type=str,
-        nargs="+",
-        help="Outputs filenames/folders"
+        "--outputs", type=str, nargs="+", help="Outputs filenames/folders"
     )
     parser.add_argument(
         "--target-subtitles",
@@ -211,8 +209,7 @@ def getParser():
         "--device",
         type=str,
         default=None,
-        choices=["cpu", "cuda"],
-        help="Force to CPU/GPU for transcribing. In default automatically use GPU if available."
+        help="Force to CPU/GPU for transcribing. In default automatically use GPU if available.",
     )
 
     return parser
@@ -236,14 +233,18 @@ def main():
         Action(args).translate()
 
     elif args.add:
-        logging.info(f"Add subtitle->[{args.target_subtitles}] for [{args.inputs}] start")
+        logging.info(
+            f"Add subtitle->[{args.target_subtitles}] for [{args.inputs}] start"
+        )
         Action(args).add_subtitles()
 
     elif args.union:
         logging.info(f"Union operations for [{args.inputs}] start")
         Action(args).union()
     elif args.union_transcribe:
-        logging.info(f"Union operations not including translate for [{args.inputs}] start")
+        logging.info(
+            f"Union operations not including translate for [{args.inputs}] start"
+        )
         Action(args).unionForTranscribe()
 
 
